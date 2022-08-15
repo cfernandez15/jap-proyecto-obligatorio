@@ -235,3 +235,9 @@ label {
     background: linear-gradient(to top, rgba(228, 217, 253, 0.55), rgba(235, 252, 231, 0.55))
   
 }
+
+.g_id_signin{
+  display: flex; /* or grid */
+  justify-content: center;
+  align-items: center;
+}

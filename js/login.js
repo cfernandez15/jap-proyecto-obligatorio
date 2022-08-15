@@ -93,5 +93,3 @@ function handleCredentialResponse(response) {
  
    return JSON.parse(jsonPayload);
  };
-
-  
