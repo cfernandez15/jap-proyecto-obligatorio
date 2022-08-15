@@ -19,10 +19,10 @@ function showProducts() {
         
         htmlContentToAppend +=  `
         <div class="alert alert-secondary">
-        <strong>No hay items para mostrar en esta categoria!.</strong>
+        <p color-secondary>No hay productos publicados en <strong>${product_type}</strong>.</p>
         </div>
          `
-        document.getElementsByTagName("body").innerHTML = htmlContentToAppend;
+        document.getElementsByClassName("pb-5")[0].innerHTML = htmlContentToAppend;
     } else {
 
     }
