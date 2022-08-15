@@ -75,9 +75,23 @@ function updateInputValues() {
     password = document.getElementById("floatingInputPassword").value;
 }
 
-function onSignIn(googleUser) {
-    console.log(0);
+function handleCredentialResponse(response) {
+    response = JSON.stringify(parseJwt(response.credential));
+    response = JSON.parse(response);
+    localStorage.setItem("user_email",response.email);
+    localStorage.removeItem("user_password");
     toggleLoginStatus();
-    window.replace('index.html');
-  }
+    window.location.replace("index.html");
+ }
+
+ function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+   }).join(''));
+ 
+   return JSON.parse(jsonPayload);
+ };
+
   
