@@ -22,7 +22,7 @@ function showProducts() {
         <strong>No hay items para mostrar en esta categoria!.</strong>
         </div>
          `
-        document.getElementById("no-items-found").innerHTML = htmlContentToAppend;
+        document.getElementsByTagName("body").innerHTML = htmlContentToAppend;
     } else {
 
     }
