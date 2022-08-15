@@ -188,3 +188,50 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.form-signin {
+  max-width: 330px;
+  width: 100%;
+  padding: 15px;
+  margin: auto;
+  
+}
+
+
+.form-floating {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#login-button {
+  margin: 10px;
+}
+
+.form-floating > label {
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 1rem .75rem;
+  pointer-events: none;
+  border: 1px solid transparent;
+  transform-origin: 0 0;
+  transition: opacity .1s ease-in-out,transform .1s ease-in-out;
+  
+}
+
+label {
+  display: inline-block;
+}
+
+.gradient-custom {
+  
+    /* fallback for old browsers */
+    background: #e4d9fd;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to top, rgba(228, 217, 253, 0.55), rgba(235, 252, 231, 0.55));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top, rgba(228, 217, 253, 0.55), rgba(235, 252, 231, 0.55))
+  
+}
