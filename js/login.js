@@ -2,53 +2,21 @@ let email;
 let password;
 
 function login() {
-        if (checkLogin) {
-            updateInputValues(); 
-            toggleLoginStatus();
-            setUserData(email,password);
-            window.location.replace('index.html');
-        }   
+    updateInputValues(); 
+    toggleLoginStatus();
+    setUserData(email,password);
+    window.location.replace('index.html');
 }
 
-function checkLogin() {
-    updateInputValues();
-    if (email.length < 1 && password.length < 1) {
-        showValidation(0);
-        return false;
-    } else if (email.length < 1 && !password.length < 1 ) {
-        showValidation(1);
-        return false;
-    } else if (!email.length <1 && password.length < 1) {
-        showValidation(2);
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function showValidation(option) {
+function addInputValidation() {
     const EMAIL_TEXT_BELOW = document.getElementById("email-text");
     const PASSWORD_TEXT_BELOW = document.getElementById("password-text");
     const LOGIN_FORM = document.getElementById("login-form");
-    switch (option) {
-        case 0:
-            LOGIN_FORM.classList.add("was-validated");
-            EMAIL_TEXT_BELOW.style.visibility = "visible";
-            EMAIL_TEXT_BELOW.classList.add("invalid-feedback");
-            PASSWORD_TEXT_BELOW.style.visibility = "visible";
-            PASSWORD_TEXT_BELOW.classList.add("invalid-feedback");
-            break;
-        case 1:
-            LOGIN_FORM.classList.add("was-validated");
-            EMAIL_TEXT_BELOW.style.visibility = "visible";
-            EMAIL_TEXT_BELOW.classList.add("invalid-feedback");
-            break;
-        case 2:
-            LOGIN_FORM.classList.add("was-validated");
-            PASSWORD_TEXT_BELOW.style.visibility = "visible";
-            PASSWORD_TEXT_BELOW.classList.add("invalid-feedback");
-            break;
-    }
+    LOGIN_FORM.classList.add("was-validated");
+    EMAIL_TEXT_BELOW.style.visibility = "visible";
+    EMAIL_TEXT_BELOW.classList.add("invalid-feedback");
+    PASSWORD_TEXT_BELOW.style.visibility = "visible";
+    PASSWORD_TEXT_BELOW.classList.add("invalid-feedback");
 }
 
 function toggleLoginStatus() {
@@ -60,13 +28,12 @@ function toggleLoginStatus() {
 }
 
 function setUserData(email, password) {
-    localStorage.setItem("user_email",email)
-    localStorage.setItem("user_password",password);
+    sessionStorage.setItem("user_email",email)
+    sessionStorage.setItem("user_password",password);
 }
 
 function getUserData() {
-    let user_data = [localStorage.getItem("user_email"),localStorage.getItem("user_password")];
-    console.log(user_data);
+    let user_data = [sessionStorage.getItem("user_email"),sessionStorage.getItem("user_password")];
     return user_data;
 }
 
@@ -78,8 +45,8 @@ function updateInputValues() {
 function handleCredentialResponse(response) {
     response = JSON.stringify(parseJwt(response.credential));
     response = JSON.parse(response);
-    localStorage.setItem("user_email",response.email);
-    localStorage.removeItem("user_password");
+    sessionStorage.setItem("user_email",response.email);
+    sessionStorage.removeItem("user_password");
     toggleLoginStatus();
     window.location.replace("index.html");
  }
@@ -90,6 +57,5 @@ function handleCredentialResponse(response) {
    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
    }).join(''));
- 
    return JSON.parse(jsonPayload);
  };

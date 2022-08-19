@@ -241,3 +241,7 @@ label {
   justify-content: center;
   align-items: center;
 }
+
+.hover-overlay:hover {
+  opacity: 0.8;
+}
