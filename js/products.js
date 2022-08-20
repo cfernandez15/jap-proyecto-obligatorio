@@ -43,7 +43,7 @@ function showProducts() {
             <div class="col py-2 cursor-active">
             <div class="card hover-overlay">
           <div class="card-header p-0 bg-transparent"><img src="${products.image}" alt="${products.description}" class="border border-light" style="width:100%;min-width: 270px;min-height:250px;display:inline-block;"></div>
-          <div class="card-body" style="min-height: 150px;max-height: 150px;"><h4 class="mb-1">${products.name}</h4><p class="mb-2">${products.description}</p></div>
+          <div class="card-body overflow-auto" style="min-height: 150px;max-height: 150px;"><h4 class="mb-1">${products.name}</h4><p class="mb-2">${products.description}</p></div>
           <div class="card-footer"><h6 class="text-dark float-end">${products.cost} ${products.currency} </h6><small class="text-muted float-start">${products.soldCount} vendidos  </small></div>
             </div>
             </div>
