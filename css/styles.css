@@ -243,5 +243,31 @@ label {
 }
 
 .hover-overlay:hover {
-  opacity: 0.8;
+  box-shadow: 0 4px 8px 0 rgba(69, 187, 241, 0.19), 0 6px 20px 0 rgba(69, 187, 241, 0.19);
+}
+
+/* .offcanvas-image, .offcanvas-button-close {
+  padding-left: 75px;
+} */
+
+#user-settings-header {
+  padding: 0px !important;
+}
+
+.offcanvas-profile-img:hover {
+  box-shadow: 0 14px 18px 0 rgba(231, 152, 5, 0.19), 0 16px 20px 0 rgba(69, 187, 241, 0.19);
+  transition: all .3s ease-in-out;
+}
+
+.cart-text {
+  padding-top: 250px;
+}
+
+.cart-body {
+  max-height: 28.5rem;
+  min-height: 28.5rem;
+}
+
+.rating {
+  color: rgba(2, 47, 245, 0.979);
 }

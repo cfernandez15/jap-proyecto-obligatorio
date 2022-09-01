@@ -40,3 +40,27 @@ let getJSONData = function(url){
     });
 }
 
+function logOut() {
+  toggleLoginStatus();
+  setUserData(0,0,0);
+  window.location.replace('login.html');
+}
+
+function toggleLoginStatus() {
+  if (sessionStorage.getItem("login_status") === "true") {
+      sessionStorage.setItem("login_status","false");
+  } else {
+      sessionStorage.setItem("login_status","true");
+  }
+}
+
+function setUserData(opt,email, password) {
+  if (opt === 0) {
+      sessionStorage.removeItem("user_email");
+      sessionStorage.removeItem("user_password");
+  } else {
+      sessionStorage.setItem("user_email",email)
+      sessionStorage.setItem("user_password",password);
+  }
+  
+}

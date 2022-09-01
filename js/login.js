@@ -4,7 +4,7 @@ let password;
 function login() {
     updateInputValues(); 
     toggleLoginStatus();
-    setUserData(email,password);
+    setUserData(1,email,password);
     window.location.replace('index.html');
 }
 
@@ -17,24 +17,6 @@ function addInputValidation() {
     EMAIL_TEXT_BELOW.classList.add("invalid-feedback");
     PASSWORD_TEXT_BELOW.style.visibility = "visible";
     PASSWORD_TEXT_BELOW.classList.add("invalid-feedback");
-}
-
-function toggleLoginStatus() {
-    if (sessionStorage.getItem("login_status") === "true") {
-        sessionStorage.setItem("login_status","false");
-    } else {
-        sessionStorage.setItem("login_status","true");
-    }
-}
-
-function setUserData(email, password) {
-    sessionStorage.setItem("user_email",email)
-    sessionStorage.setItem("user_password",password);
-}
-
-function getUserData() {
-    let user_data = [sessionStorage.getItem("user_email"),sessionStorage.getItem("user_password")];
-    return user_data;
 }
 
 function updateInputValues() {
@@ -54,8 +36,22 @@ function handleCredentialResponse(response) {
  function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
    }).join(''));
    return JSON.parse(jsonPayload);
  };
+
+ function showPassword() {
+    const PASSWORD_INPUT = document.getElementById("floatingInputPassword");
+    const PASSWORD_EYE = document.getElementById("password-eye");
+    if (PASSWORD_INPUT.type === "password") {
+        PASSWORD_EYE.classList.remove("bi-eye");
+        PASSWORD_EYE.classList.add("bi-eye-slash");
+        PASSWORD_INPUT.type = "text";
+    } else {
+        PASSWORD_EYE.classList.remove("bi-eye-slash");
+        PASSWORD_EYE.classList.add("bi-eye");
+        PASSWORD_INPUT.type = "password";
+    }
+}
