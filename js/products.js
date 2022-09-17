@@ -31,10 +31,14 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         });
     }
-   
  });
+function setProductId(id) {
+    localStorage.setItem("prodId", id);
+    window.location = "product-info.html";
+}
 
 function showProducts(array) {
+    getRating(productsArray);
     let htmlContentToAppend = "";
     if (productsArray.length < 1) {
         htmlContentToAppend +=  `
@@ -51,11 +55,11 @@ function showProducts(array) {
             let products = array[i];
             
             htmlContentToAppend += `
-            <div class="border p-0 cursor-active hover-overlay" style="min-width: 400px">
+            <div class="border p-0 cursor-active hover-overlay" style="min-width: 400px" onClick="setProductId(${products.id})">
             <div class="p-0 bg-transparent"><img src="${products.image}" alt="${products.description}" class="border border-light" style="width:100%;max-width: auto;display:inline-block;"></div>
             <div class="pt-2 px-2 border-bottom border-rounded-pill d-flex justify-content-between" style="max-height:100px"><h4 class="text-dark">${products.name}<h4 class="text-dark"><strong>${products.cost} ${products.currency}</strong></h4></div>
             <div class="p-1 bg-light overflow-auto text-start" style="min-height: 90px; max-height:90px"><p class="mb-2">${products.description}</p></div>
-            <div class="pe-2 ps-2 py-1 border-top d-flex justify-content-between"><div class="d-flex" style="gap: 0.3em;"><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star rating"></i></div><h6 class="text-dark float-end"><small>${products.soldCount} vendidos</small></h6></div>
+            <div class="pe-2 ps-2 py-1 border-top d-flex justify-content-between"><div class="d-flex" id="${products.id}" style="gap: 0.3em;"></div><h6 class="text-dark float-end"><small>${products.soldCount} vendidos</small></h6></div>
             </div>
             `
         }
@@ -65,16 +69,7 @@ function showProducts(array) {
     } 
     
     }
-    
-window.addEventListener("DOMContentLoaded", function() {
-    if (sessionStorage.getItem("login_status") !== "true") {
-        window.location.replace("login.html");
-    } else {
-        const USER_EMAIL_TEXT = document.getElementById("user-email"); 
-        USER_EMAIL_TEXT.innerHTML = sessionStorage.getItem("user_email");
-    }
-});
-
+ 
 function sort(array,criteria, type) {
     if (type === "cost" || type === "soldCount") {
         if (criteria === "ASC") {
@@ -91,16 +86,20 @@ function sort(array,criteria, type) {
             currentProductsArray = array.sort(function(a,b) {
                 if ( a[type] < b[type]) {
                     return -1;
-                } else {
+                } else if (a[type] > b[type]) {
                     return 1;
+                } else {
+                    return 0;
                 }
             });
         } else {
             currentProductsArray = array.sort(function(a,b) {
                 if ( a[type] > b[type]) {
                     return -1;
-                } else {
+                } else if (a[type] < b[type]){
                     return 1;
+                } else {
+                    return 0;
                 }
             });
         }
@@ -189,3 +188,102 @@ SEARCH_INPUT.addEventListener('keydown', function(e) {
     }
 });
 
+function getRating(array) {
+    let scores = [];
+    array.forEach( element => {
+        scores.push(element.id);
+    });
+    array.forEach( element => {
+        getProductsRating(element.id);
+    });
+}
+
+async function getProductsRating(id) {
+    let response = await fetch(PRODUCT_INFO_COMMENTS_URL+id+EXT_TYPE);
+    let result = await response.json();
+    let averages = [];
+    let average_score = 0;
+    
+    for (let i = 0; i < result.length; i++) {
+        averages[i] = result[i];
+        
+    }
+    if (localStorage.getItem("additional_comements_score")) {
+        let additional_comments_score = JSON.parse(localStorage.getItem("additional_comements_score"));
+        getNewCommentsScore(additional_comments_score, averages);
+        console.log(averages);
+    }
+    
+    for (let i = 0; i < averages.length; i++) {
+        average_score = average_score + averages[i].score;
+    }
+    
+    average_score = average_score / averages.length;
+    let htmlContentToAppend = "";
+    if (Number.isNaN(average_score)) {
+        htmlContentToAppend = `
+        <small>No hay calificaciones</small>
+        `
+    } else {
+        if (average_score === 5) {
+            htmlContentToAppend = `
+            <i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i><i class="bi bi-star-fill rating"></i>
+            
+            `
+        } else {
+            if (average_score.toString().split('.')[1]) {
+              for (let i = 0; i < Math.round(average_score)-1; i++) {
+                htmlContentToAppend += `
+                <i class="bi bi-star-fill rating"></i>
+                `
+              }
+                if (parseInt(average_score.toString().split('.')[1].slice(0,1)) >= 5) {
+                htmlContentToAppend += `
+                <i class="bi bi-star-half rating"></i>
+                `
+                } else {
+                htmlContentToAppend += `
+                  <i class="bi bi-star-fill rating"></i>
+                  `
+                }
+              for (let i = Math.round(average_score); i < 5; i++) {
+                htmlContentToAppend += `
+                <i class="bi bi-star rating"></i>
+                `
+              }
+            } else {
+              for (let i = 0; i < Math.round(average_score); i++) {
+                htmlContentToAppend += `
+                <i class="bi bi-star-fill rating"></i>
+                `
+              }
+              for (let i = Math.round(average_score); i < 5; i++) {
+                htmlContentToAppend += `
+                <i class="bi bi-star rating"></i>
+                `
+              }
+            }
+            
+          }
+    }
+    htmlContentToAppend += `
+    <small>(${averages.length})</small>
+    `
+    const product_rating = document.getElementById(id);
+    let actual_content = product_rating.innerHTML;
+    product_rating.innerHTML = htmlContentToAppend+actual_content;
+}
+
+let lastId = 0;
+const getNewCommentsScore = (array1,array2) => {
+    if (array2.length > 0) {
+        if (lastId < array2[0].product) {
+            array1.forEach( element => {
+                if (element.product == array2[0].product) {
+                    array2.push(element);
+                }
+            });
+            lastId = array2[0].product;
+        }
+    } 
+}

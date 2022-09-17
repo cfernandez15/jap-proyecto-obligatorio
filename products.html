@@ -15,9 +15,10 @@
 
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1" style="max-height: 55px;">
-  <div class="position-absolute top-0 start-0 ps-1 pt-1">
-    <img src="img/profile_images/img1.jpg" class="rounded-circle cursor-active" style="height: 100px; width: 100px;" data-bs-toggle="offcanvas" data-bs-target="#user-settings">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top" style="max-height: 55px;">
+  <div id="user-icon" class="d-flex align-items-center cursor-active" data-bs-toggle="offcanvas" data-bs-target="#user-settings">
+    <i class="bi bi-person-circle cursor-active text-secondary pb-1" style="font-size: 40px;"></i>
+    <h3 class="text-secondary ps-2 pt-1" id="user"></h3>
   </div>
   <div class="container overflow-show">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -107,7 +108,7 @@
     </div>
   </div>
 <!-- Nombre de la categoria del producto -->
-  <main class="pb-5">
+  <main class="pb-5 py-5">
     <div class="text-center p-4">
       <h2 id="prod-type-title">Productos</h2>
       <p class="lead" id="prod-type-text">Verás aquí todos los productos de la categoria </p>

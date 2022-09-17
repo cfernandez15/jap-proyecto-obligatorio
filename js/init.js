@@ -64,3 +64,22 @@ function setUserData(opt,email, password) {
   }
   
 }
+
+function setProductId(id) {
+  localStorage.setItem("prodId", id);
+  window.location = "product-info.html";
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  if (sessionStorage.getItem("login_status") !== "true" && !window.location.href.includes("login.html")) {
+    window.location.replace("login.html");
+  } else if (sessionStorage.getItem("login_status") == "true"  && !window.location.href.includes("login.html")) {
+    const USER_EMAIL_TEXT = document.getElementById("user-email"); 
+    const navbar_user = document.getElementById("user");
+    navbar_user.innerHTML = sessionStorage.getItem("user_email");
+    USER_EMAIL_TEXT.innerHTML = sessionStorage.getItem("user_email");
+  }
+})
+
+
+
