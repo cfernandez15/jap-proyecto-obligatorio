@@ -7,6 +7,7 @@ const comment_container = document.getElementById("comment-container");
 const btn_comment = document.getElementById("comment-btn");
 const prod_description = document.getElementById("product-description");
 let additional_comments_score = [];
+let cart = [];
 
 // Eventos 
 
@@ -27,6 +28,12 @@ window.addEventListener("DOMContentLoaded", function() {
           stars_score.innerHTML += score;
         }
     });
+
+    const btn_addToCart = document.getElementById("btn_addToCart");
+    btn_addToCart.addEventListener("click", function() {
+      const {images, cost, currency, name} = product_info;
+      addProductToCart(images, name, cost, currency);
+    })
   });
   if (localStorage.getItem("comments")) {
     commentsArray = JSON.parse(localStorage.getItem("comments"));
@@ -37,6 +44,7 @@ window.addEventListener("DOMContentLoaded", function() {
     let comment = document.getElementById("comment-textarea").value;
     addComment(comment);
   });
+
   // Todo relacionado a la info de los productos
   
   function showProductInfo(array) {
@@ -55,7 +63,7 @@ window.addEventListener("DOMContentLoaded", function() {
     </div>
     <div class="d-flex flex-column align-items-center container" style="gap: 0.5em; width: 500px">
     <button type="button" class="btn btn-primary" style="width: 10em">Comprar ahora</button>
-    <button type="button" class="btn btn-primary" style="width: 10em">Agregar al carrito</button>
+    <button id="btn_addToCart" type="button" class="btn btn-outline-primary" style="width: 10em">Agregar al carrito</button>
     </div>
     </div>
     </div>
@@ -365,4 +373,28 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  const addProductToCart = (img, name, cost, currency) => {
+    if (localStorage.getItem("cart_items_number")) {
+      localStorage.setItem("cart_items_number", Number.parseInt(localStorage.getItem("cart_items_number"))+1);
+      cart = localStorage.getItem("htmlCart").split(',');
+    } else {
+      localStorage.setItem("cart_items_number", 1);
+    }
+    document.getElementById("cart-items").innerHTML = localStorage.getItem("cart_items_number");
+    let HtmlCart = "";
+    HtmlCart = `
+    <li class="list-group-item" id="${localStorage.getItem("cart_items_number")}">
+        <div class="container p-0 d-flex w-auto" style="height: 150px;">
+          <img src="${img[0]}" class="w-auto rounded border">
+          <div class="d-flex container flex-column justify-content-between p-0">
+            <h3 class="text-dark ps-3">${name}</h3>
+            <h4 class="text-muted text-end pe-0">Cantidad: x - ${currency} ${cost}</h4>
+          </div>
+          <button class="btn-close" onclick="removeItem(this)"></button>
+        </div>
+      </li>
+    `
+    cart.push(HtmlCart);
+    localStorage.setItem("htmlCart", cart);
+  }
   

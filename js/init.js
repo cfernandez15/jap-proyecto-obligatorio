@@ -74,10 +74,10 @@ window.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem("login_status") !== "true" && !window.location.href.includes("login.html")) {
     window.location.replace("login.html");
   } else if (sessionStorage.getItem("login_status") == "true"  && !window.location.href.includes("login.html")) {
-    const USER_EMAIL_TEXT = document.getElementById("user-email"); 
     const navbar_user = document.getElementById("user");
-    navbar_user.innerHTML = sessionStorage.getItem("user_email");
-    USER_EMAIL_TEXT.innerHTML = sessionStorage.getItem("user_email");
+    const cart_itemsNumber = document.getElementById("cart-items");
+    cart_itemsNumber.innerHTML = localStorage.getItem("cart_items_number");
+    navbar_user.innerHTML = `<i class="bi bi-person-circle"></i> `+sessionStorage.getItem("user_email");
   }
 })
 

@@ -16,60 +16,37 @@
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top" style="max-height: 55px;">
-  <div id="user-icon" class="d-flex align-items-center cursor-active" data-bs-toggle="offcanvas" data-bs-target="#user-settings">
-      <i class="bi bi-person-circle cursor-active text-secondary pb-1" style="font-size: 40px;"></i>
-      <h3 class="text-secondary ps-2 pt-1" id="user"></h3>
-    </div>
   <div class="container overflow-show">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav w-100 justify-content-end" style="gap: 3em;">
+      <ul class="navbar-nav w-100 justify-content-end" style="gap: 1.5em;">
         <li class="nav-item">
-          <a class="nav-link active" href="index.html">Inicio</a>
+          <a class="nav-link" href="index.html"><i class="bi bi-house-fill"></i> Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="categories.html">Categorías</a>
+          <a class="nav-link" href="categories.html"><i class="bi bi-bag-fill"></i> Categorías</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="sell.html">Vender</a>
+          <a class="nav-link" href="sell.html"><i class="bi bi-tag-fill"></i> Vender</a>
+        </li>
+        <li class="nav-item">
+          <div class="dropdown">
+            <a class="nav-link cursor-active" id="user" data-bs-toggle="dropdown"></a>
+            <ul class="dropdown-menu bg-dark">
+              <li><a class="dropdown-item" href="my-profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+              <li><a class="dropdown-item" href="cart.html"><i class="bi bi-cart"></i> Carrito  <span class="badge bg-primary float-end" id="cart-items"></span></a></li>
+              <li><a class="dropdown-item cursor-active" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-gear"></i> Opciones</a></li>
+              <li><a class="dropdown-item cursor-active" onclick="logOut()"><i class="bi bi-x-lg"></i> Salir</a></li>
+            </ul>
+          </div> 
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
-<!-- offcanvas (menu que se despliega del lado izquierdo)-->
-  <div class="offcanvas offcanvas-start bg-light" id="user-settings">
-    <div class="offcanvas-header align-items-start justify-content-center" id="user-settings-header">
-      <div class="offcanvas-image pt-2 position-absolute top-0 start-50 translate-middle-x">
-        <a href="my-profile.html"><img src="img/profile_images/img1.jpg" class="rounded-circle offcanvas-profile-img cursor-active" style="width: 175px; height: 175px;"></a>
-      </div>
-      <div class="offcanvas-button-close pb-2 me-3 mt-1 position-absolute top-0 end-0">
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-      </div>
-    </div>
-    <div class="offcanvas-body text-center">
-      <h4 class="text-muted pb-3" id="user-email" style="padding-top: 200px;"></h2>
-        <div class="cart pt-3 border-top border-2"style="max-height: 50%;">
-          <div class="cart-header d-flex justify-content-center text-center" style="gap: 20px;">
-            <h3 class="py-3 text-center">Carrito </h3>
-              <i class="bi bi-cart" style="font-size: 40px;"></i>
-          </div>
-          <div class="cart-body overflow-auto shadow">
-            <div class="">
-              <h4 class="text-muted pt-4 position-absolute top-50 start-50 translate-middle-x text-justify">No se han encontrado productos en su carrito.</h4>
-            </div>
-            </div>
-        </div>
-        <div class="btn-group-vertical position-absolute bottom-0 start-60 translate-middle-x">
-          <button type="button" class="bottom btn btn-outline-primary mb-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Opciones</button>
-          <button type="button" onclick="logOut()" class="bottom btn btn-outline-danger mb-2">Salir</button>
-        </div> 
-    </div>
-  </div>
 
 <!-- Modal de Opciones -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -85,16 +62,16 @@
         <!-- Modal body -->
         <div class="modal-body">
           <div class="first-option d-flex">
-            <h5 class="text-black pe-3 pt-2">Tema: </h5>
+            <h5 class="text-black pe-3 pt-2">Modo oscuro: </h5>
             <div class="form-check form-switch form-control-lg justify-content-center">
               <input class="form-check-input pt-3" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
             </div> 
           </div>
           <div class="second-option d-flex pt-1">
-            <h5 class="text-black pe-3 mt-1">Lenguaje: </h5>
+            <h5 class="text-black pe-3 mt-1">Idioma: </h5>
             <select class="form-select w-25">
-              <option>Espaniol</option>
-              <option>Ingles</option>
+              <option>Español</option>
+              <option>Inglés</option>
             </select> 
           </div>
         </div>
@@ -133,7 +110,7 @@
       <h6 class="text-danger text-center d-none" id="comment-alert"><strong>El comentario debe contener al menos 6 caracteres.</strong></h6>
     </div>
     <div class="container p-5 bg-light rounded-3 border border-top-0 border-2">
-      <h2 class="text-primary text-center pb-3">Quizas te interesan estos productos:</h2>
+      <h2 class="text-primary text-center pb-3">Quizás te interesan estos productos:</h2>
       <div class="d-flex justify-content-center p-0 m-0" id="related-products" style="gap: 2em;">
 
       </div>
