@@ -74,6 +74,9 @@ window.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem("login_status") !== "true" && !window.location.href.includes("login.html")) {
     window.location.replace("login.html");
   } else if (sessionStorage.getItem("login_status") == "true"  && !window.location.href.includes("login.html")) {
+    if (!localStorage.getItem("isCartLoaded")) {
+      localStorage.setItem("cart_items_number", 1);
+    }
     const navbar_user = document.getElementById("user");
     const cart_itemsNumber = document.getElementById("cart-items");
     cart_itemsNumber.innerHTML = localStorage.getItem("cart_items_number");

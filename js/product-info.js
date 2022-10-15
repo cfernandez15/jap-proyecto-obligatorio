@@ -28,11 +28,20 @@ window.addEventListener("DOMContentLoaded", function() {
           stars_score.innerHTML += score;
         }
     });
+    const btn_buyNow = document.getElementById("btn_buyNow");
+    btn_buyNow.addEventListener('click', () => {
+      const {id, images, cost, currency, name} = product_info;
+      addProductToCart(id, images, name, cost, currency, 1);
+      window.location.replace("cart.html");
+    })
 
     const btn_addToCart = document.getElementById("btn_addToCart");
-    btn_addToCart.addEventListener("click", function() {
-      const {images, cost, currency, name} = product_info;
-      addProductToCart(images, name, cost, currency);
+    btn_addToCart.addEventListener("click", () => {
+      const alert = document.getElementById("alert-added");
+      alert.classList.add("invisible");
+      const {id, images, cost, currency, name} = product_info;
+      addProductToCart(id, images, name, cost, currency, 1);
+      alert.classList.remove("invisible");
     })
   });
   if (localStorage.getItem("comments")) {
@@ -62,7 +71,7 @@ window.addEventListener("DOMContentLoaded", function() {
     <h3 class="text-dark text-end"><strong>${currency} ${cost}</h3>
     </div>
     <div class="d-flex flex-column align-items-center container" style="gap: 0.5em; width: 500px">
-    <button type="button" class="btn btn-primary" style="width: 10em">Comprar ahora</button>
+    <button id="btn_buyNow" type="button" class="btn btn-primary" style="width: 10em">Comprar ahora</button>
     <button id="btn_addToCart" type="button" class="btn btn-outline-primary" style="width: 10em">Agregar al carrito</button>
     </div>
     </div>
@@ -265,7 +274,6 @@ window.addEventListener("DOMContentLoaded", function() {
       let userComment = {id: product_info.id, content: htmlContentToAppend};
       commentsArray.push(userComment);
       localStorage.setItem('comments',JSON.stringify(commentsArray));
-      
       location.reload();
     } else {
       document.getElementById("comment-alert").classList.remove("d-none");
@@ -373,28 +381,22 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  const addProductToCart = (img, name, cost, currency) => {
-    if (localStorage.getItem("cart_items_number")) {
-      localStorage.setItem("cart_items_number", Number.parseInt(localStorage.getItem("cart_items_number"))+1);
-      cart = localStorage.getItem("htmlCart").split(',');
-    } else {
-      localStorage.setItem("cart_items_number", 1);
+// Todo lo relacionado al carrito
+
+  const addProductToCart = (id, img, name, cost, currency, cant) => {
+    if (localStorage.getItem("user_cart")) {
+      cart = JSON.parse(localStorage.getItem("user_cart"));
     }
+    cart.forEach( (products, index) => {
+      if (products.articles[0].id == id) {
+        cant = parseInt(products.articles[0].count) + 1;
+        cart.splice(index, 1);
+      } 
+    });
+    localStorage.getItem("cart_items_number")? localStorage.setItem("cart_items_number", Number.parseInt(localStorage.getItem("cart_items_number"))+1): localStorage.setItem("cart_items_number", 1);
     document.getElementById("cart-items").innerHTML = localStorage.getItem("cart_items_number");
-    let HtmlCart = "";
-    HtmlCart = `
-    <li class="list-group-item" id="${localStorage.getItem("cart_items_number")}">
-        <div class="container p-0 d-flex w-auto" style="height: 150px;">
-          <img src="${img[0]}" class="w-auto rounded border">
-          <div class="d-flex container flex-column justify-content-between p-0">
-            <h3 class="text-dark ps-3">${name}</h3>
-            <h4 class="text-muted text-end pe-0">Cantidad: x - ${currency} ${cost}</h4>
-          </div>
-          <button class="btn-close" onclick="removeItem(this)"></button>
-        </div>
-      </li>
-    `
-    cart.push(HtmlCart);
-    localStorage.setItem("htmlCart", cart);
+    let product = {user: sessionStorage.getItem("user_email"), articles: [{id: id,name: name,count: cant,unitCost: cost,currency: currency, image: img[0]}]}
+    cart.push(product);
+    localStorage.setItem("user_cart", JSON.stringify(cart));
   }
   

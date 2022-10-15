@@ -14,8 +14,8 @@
 
 <body>
  <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top" style="max-height: 55px;">
-  <div class="container overflow-show">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top">
+  <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -35,9 +35,9 @@
           <div class="dropdown">
             <a class="nav-link cursor-active" id="user" data-bs-toggle="dropdown"></a>
             <ul class="dropdown-menu bg-dark">
-              <li><a class="dropdown-item" href="my-profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-              <li><a class="dropdown-item" href="cart.html"><i class="bi bi-cart"></i> Carrito  <span class="badge bg-primary float-end badge-cart" id="cart-items"></span></a></li>
-              <li><a class="dropdown-item cursor-active" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-gear"></i> Opciones</a></li>
+              <li><a class="dropdown-item" href="my-profile.html"><i class="bi bi-person-fill"></i> Perfil</a></li>
+              <li><a class="dropdown-item" href="cart.html"><i class="bi bi-cart-fill"></i> Carrito  <span class="badge bg-primary float-end badge-cart" id="cart-items"></span></a></li>
+              <li><a class="dropdown-item cursor-active" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-gear-fill"></i> Opciones</a></li>
               <li><a class="dropdown-item cursor-active" onclick="logOut()"><i class="bi bi-x-lg"></i> Salir</a></li>
             </ul>
           </div> 
@@ -85,11 +85,103 @@
 </div>
 
   <main class="py-5 d-flex flex-column align-items-center bg-light">
-    <h2 class="py-5"><i class="bi bi-cart"></i> Carrito</h2>
+    <h2 class="py-5" id="cart-title"><i class="bi bi-cart"></i> Carrito</h2>
+
     <div id="cart-list" class="container rounded-2 list-group overflow-auto border rounded-3 p-3 bg-white shadow" style="height: 500px; width: 900px;">
     </div>
-    <div class="pt-4 container" style="width: 920px;" id="btn-next">
+
+    <div class="container my-5 d-none p-0" id="cart-steps" style="height: 600px; width: 900px;">
+      <div class="d-flex justify-content-between" style="width: auto;">
+        <div class="d-flex mb-5 justify-content-between overflow-visible border-bottom border-dark" style="height: 10px;width: 50%;" id="step1-progressbar">
+          <div class="bg-primary rounded-circle" style="height: 20px; width: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Paso 1: Datos del envio">
+            
+          </div>
+        </div>
+        <div class="bg-dark rounded-circle" style="height: 20px; width: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Paso 2: Metodos de pago" id="step2-objective">
+            
+        </div>
+        <div class="d-flex mb-5 justify-content-end overflow-visible border-bottom border-dark" style="height: 10px;width: 50%;" id="step2-progressbar">
+          
+          <div class="bg-dark rounded-circle" style="height: 20px; width: 20px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Paso 3: Procesamiento del pago" id="step3-objective">
+            
+          </div>
+        </div>
+      </div>
+      <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between" style="height: 590px;" id="step1">
+        <div id="delivery-details" style="width: 900px;">
+          <div class="d-flex flex-column p-2" style="height: 100%;">
+            <h4 class="text-secondary p-2">Datos del envio: </h4>
+            <div class="d-flex flex-column pt-5 p-2">
+              <h5>Tipo de envio: </h5>
+              <form class="p-2">
+                <div class="d-flex">
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="premium" checked>Premium
+                    <label class="form-check-label" for="radio1"></label>
+                  </div>
+                  <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="2 a 5 dias habiles (15%)"></i>
+                </div>
+                <div class="d-flex">
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="express">Express
+                    <label class="form-check-label" for="radio2"></label>
+                    <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="5 a 8 dias habiles (7%)"></i>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="standar">Standar
+                    <label class="form-check-label"></label>
+                    <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="12 a 15 dias habiles (5%)"></i>
+                  </div>
+                </div>
+                <h5 class="pt-5">Direccion del envio: </h5>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="calle" placeholder="Ingrese la calle" name="calle">
+                      <label for="email">Calle</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="numero" placeholder="Ingrese la esquina" name="numero">
+                      <label for="email">Numero</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="esquina" placeholder="Ingrese el numero de su vivienda" name="esquina">
+                      <label for="email">Esquina</label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between d-none" style="height: 590px;" id="step2">
+      </div>
+      <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between d-none" style="height: 590px;" id="step3">
+      </div>
     </div>
+      
+      
+    
+  </div>
+    <div class="pt-4 container d-flex justify-content-between" style="width: 920px; visibility: hidden;" id="cart-control">
+      <div id="total-container" class="d-flex" style="gap: 0.5em;">
+        <h4 class="text-dark mt-1">Total: </h4>
+        <h4 class="text-dark mt-1" id="total">12500</h4>
+        <select class="form-select" id="currency-select" onchange="convertPriceToCurrency(this.value)">
+          <option value="USD">USD</option>
+          <option value="UYU">UYU</option>
+        </select>
+      </div>
+        <a class="btn btn-primary" id="cart-next1" onclick="nextStep(this.id)">Siguiente</a>
+      </div>
+
   </main>
   <footer class="text-muted">
     <div class="container">
@@ -112,6 +204,12 @@
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
 </body>
 
 </html>
