@@ -85,8 +85,13 @@
 </div>
 
   <main class="py-5 d-flex flex-column align-items-center bg-light">
+    <div class="alert alert-danger text-center w-25 invisible" id="emptyCartAlert">
+      El carrito no puede estar vacío.
+    </div>
+    <div class="alert alert-success text-center w-25 invisible mx-auto my-auto" id="purchaseCompleted">
+      Su compra ha sido realizada con éxito. Será redirigido en unos momentos...
+    </div>   
     <h2 class="py-5" id="cart-title"><i class="bi bi-cart"></i> Carrito</h2>
-
     <div id="cart-list" class="container rounded-2 list-group overflow-auto border rounded-3 p-3 bg-white shadow" style="height: 500px; width: 900px;">
     </div>
 
@@ -110,27 +115,26 @@
       <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between" style="height: 590px;" id="step1">
         <div id="delivery-details" style="width: 900px;">
           <div class="d-flex flex-column p-2" style="height: 100%;">
-            <h4 class="text-secondary p-2">Datos del envio: </h4>
+            <h4 class="text-secondary p-2">Datos del envío: </h4>
             <div class="d-flex flex-column pt-5 p-2">
-              <h5>Tipo de envio: </h5>
-              <form class="p-2">
+              <h5>Tipo de envío: </h5>
                 <div class="d-flex">
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="premium" checked>Premium
+                    <input type="radio" class="form-check-input" id="premium" name="optradio" value="0.15" novalidate>Premium
                     <label class="form-check-label" for="radio1"></label>
                   </div>
                   <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="2 a 5 dias habiles (15%)"></i>
                 </div>
                 <div class="d-flex">
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="express">Express
+                    <input type="radio" class="form-check-input" id="express" name="optradio" value="0.07">Express
                     <label class="form-check-label" for="radio2"></label>
                     <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="5 a 8 dias habiles (7%)"></i>
                   </div>
                 </div>
                 <div class="d-flex">
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="standar">Standar
+                    <input type="radio" class="form-check-input" id="standar" name="optradio" value="0.05" checked>Standar
                     <label class="form-check-label"></label>
                     <i class="bi bi-patch-question cursor-active" data-bs-toggle="tooltip" data-bs-placement="right" title="12 a 15 dias habiles (5%)"></i>
                   </div>
@@ -139,31 +143,59 @@
                 <div class="row">
                   <div class="col-8">
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="calle" placeholder="Ingrese la calle" name="calle">
-                      <label for="email">Calle</label>
+                      <input type="text" class="form-control" id="calle" name="calle" minlength="8" placeholder="Calle" required oninput="checkInputValidity(this.id)">
+                      <label for="calle">Calle</label>
+                      <div class="invalid-feedback">Ingrese una calle.</div>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="numero" placeholder="Ingrese la esquina" name="numero">
-                      <label for="email">Numero</label>
+                      <input type="text" class="form-control" id="numero" name="numero" minlength="4" placeholder="Numero" required oninput="checkInputValidity(this.id)">
+                      <label for="numero">Número de vivienda</label>
+                      <div class="invalid-feedback">Ingrese un número de vivienda.</div>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="esquina" placeholder="Ingrese el numero de su vivienda" name="esquina">
-                      <label for="email">Esquina</label>
+                      <input type="text" class="form-control" id="esquina" name="esquina" minlength="6" placeholder="Esquina" required oninput="checkInputValidity(this.id)">
+                      <label for="esquina">Esquina</label>
+                      <div class="invalid-feedback">Ingrese una esquina.</div>
                     </div>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>
       </div>
       <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between d-none" style="height: 590px;" id="step2">
+        <div class="d-flex flex-column p-2" style="height: 100%;">
+          <h4 class="text-secondary p-2">Métodos de pago</h4>
+          <div class="d-flex">
+            <h5 class="text-muted px-2" id="paymentMethod_text">No hay ningún método de pago seleccionado</h5>
+            <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#paymentMethodModal">Seleccionar</a>
+          </div>
+          <div class="d-none p-2" id="errorText">
+            <p class="text-danger">Agregue un método de pago antes de continuar</p>
+          </div>
+        </div>
       </div>
       <div class="container border border-2 bg-white p-0 my-2 rounded-2 d-flex justify-content-between d-none" style="height: 590px;" id="step3">
+          <div class="d-flex flex-column p-2 col-7" style="height: 100%;">
+            <div class="d-flex flex-column p-2" style="width: 400px;">
+              <h4>Método de pago: </h3>
+              <h5 id="paymentMethod_step3"></h4>
+            </div>
+            <div class="d-flex flex-column p-2">
+              <h4>Dirección del envío: </h3>
+              <h5 id="adress_step3"></h4>
+            </div>
+            </div>
+            <div class="d-flex flex-column p-2 col-5" style="width: 500px;">
+              <h4>Costos: </h3>
+              <div class="d-flex flex-column pe-2" id="balance_step3">
+    
+              </div>
+            </div>
       </div>
     </div>
       
@@ -173,15 +205,82 @@
     <div class="pt-4 container d-flex justify-content-between" style="width: 920px; visibility: hidden;" id="cart-control">
       <div id="total-container" class="d-flex" style="gap: 0.5em;">
         <h4 class="text-dark mt-1">Total: </h4>
-        <h4 class="text-dark mt-1" id="total">12500</h4>
+        <h4 class="text-dark mt-1" id="total"></h4>
         <select class="form-select" id="currency-select" onchange="convertPriceToCurrency(this.value)">
           <option value="USD">USD</option>
           <option value="UYU">UYU</option>
         </select>
       </div>
+        <a class="btn btn-primary d-none" id="cart-prev1" onclick="prevStep(this.id)">Atras</a>
         <a class="btn btn-primary" id="cart-next1" onclick="nextStep(this.id)">Siguiente</a>
+        <a class="btn btn-primary d-none" id="cart-purchase" onclick="finishPurchase(this.id)">Finalizar compra</a>
       </div>
-
+<div class="modal" id="paymentMethodModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-3">
+        <h5 class="modal-title">Métodos de pago</h5>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column">
+          <form>
+            <div>
+              <div class="form-check d-flex p-0 pb-2 border-bottom" style="gap: 2.5em;">
+                <label class="form-check-label" for="creditCard">Tarjeta de crédito: </label>
+                <input type="radio" class="form-check-input" id="creditCard" name="optradio" onchange="changePaymentMethod(this.id)" checked>
+              </div>
+              <div class="row pt-2 g-2">
+                <div class="col-8 form-floating">
+                  <input type="text" class="form-control" pattern="[1-9]{1}[0-9]{11}" minlength="12" id="floatingCardNumber" placeholder="Numero" required oninput="checkInputValidity(this.id)">
+                  <label for="floatingCardNumber">Número de la tarjeta</label>
+                  <div class="invalid-feedback">
+                    Ingrese un número de tarjeta válido.
+                  </div>
+                </div>
+                <div class="col-4 form-floating">
+                  <input type="text" class="form-control" pattern="[0-9]{3}" minlength="3" id="floatingSecurityCode" placeholder="Codigo" required oninput="checkInputValidity(this.id)">
+                  <label for="floatingSecurityCode">Código de seg.</label>
+                  <div class="invalid-feedback">
+                    Ingrese un código de seguridad válido.
+                  </div>
+                </div>
+                <div class="col-4 form-floating">
+                  <input type="text" class="form-control" id="floatingVencimiento" pattern="((^0[1-9]{1})|(^1[0-2]{1}))[/]{1}[2]{1}[2-9]{1}" minlength="5" placeholder="Vencimiento" required oninput="checkInputValidity(this.id)">
+                  <label for="floatingVencimiento">Venc. (MM/AA)</label>
+                  <div class="invalid-feedback">
+                    Ingrese una fecha de vencimiento válida.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="form-check d-flex p-0 py-2 border-bottom" style="gap: 2.5em;">
+                <label class="form-check-label" for="bankAccount">Cuenta bancaria: </label>
+                <input type="radio" class="form-check-input" id="bankAccount" name="optradio" onchange="changePaymentMethod(this.id)">
+            </div>
+            <div class="row pt-2 g-2">
+              <div class="col-8 form-floating">
+                <input type="text" class="form-control" pattern="[0-9]{12}" id="floatingCuentaBancaria" placeholder="Numero de cuenta" disabled required oninput="checkInputValidity(this.id)">
+                <label for="floatingCuentaBancaria">Número de cuenta</label>
+                <div class="invalid-feedback">
+                  Ingrese un numero de cuenta valido.
+                </div>
+              </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-danger d-none" id="paymentMethodError">
+          Añade un método de pago.
+        </div>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="addPaymentMethod()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
   </main>
   <footer class="text-muted">
     <div class="container">
