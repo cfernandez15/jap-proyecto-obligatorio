@@ -1,3 +1,5 @@
+// Declaracion de variables 
+
 const CATEGORIES_URL = "https://japceibal.github.io/emercado-api/cats/cat.json";
 const PUBLISH_PRODUCT_URL = "https://japceibal.github.io/emercado-api/sell/publish.json";
 const PRODUCTS_URL = "https://japceibal.github.io/emercado-api/cats_products/";
@@ -7,14 +9,19 @@ const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
 
+// Declaracion de funciones
+
+// Funcion que muestra un spinner
 let showSpinner = function(){
   document.getElementById("spinner-wrapper").style.display = "block";
 }
 
+// Funcion que oculta un spinner
 let hideSpinner = function(){
   document.getElementById("spinner-wrapper").style.display = "none";
 }
 
+// Funcion que hace un fetch a una url especifica
 let getJSONData = function(url){
     let result = {};
     showSpinner();
@@ -40,13 +47,15 @@ let getJSONData = function(url){
     });
 }
 
-function logOut() {
+// Funcion de deslogueo, cambia el estado del login, elimina los datos del usuario y reedirige a la pantalla de inicio de sesion
+const logOut = () => {
   toggleLoginStatus();
   setUserData(0,0,0);
   window.location.replace('login.html');
 }
 
-function toggleLoginStatus() {
+// Funcion que cambia el valor del estado de logueo
+const toggleLoginStatus = () => {
   if (sessionStorage.getItem("login_status") === "true") {
       sessionStorage.setItem("login_status","false");
   } else {
@@ -54,7 +63,8 @@ function toggleLoginStatus() {
   }
 }
 
-function setUserData(opt,email, password) {
+// Funcion que setea el email y contrasenia del usuario, o los elimina.
+const setUserData = (opt,email, password) => {
   if (opt === 0) {
       sessionStorage.removeItem("user_email");
       sessionStorage.removeItem("user_password");
@@ -65,11 +75,15 @@ function setUserData(opt,email, password) {
   
 }
 
-function setProductId(id) {
+// Funcion que setea el prodId en el localStorage y reedirige a la pagina del producto (general)
+const setProductId = (id) => {
   localStorage.setItem("prodId", id);
   window.location = "product-info.html";
 }
 
+// Declaracion de eventos
+
+// Evento 'DOMContentLoaded' cuando carga el DOM (a nivel general de todas las paginas) setea el select del navbar con el email ingresado del usuario, su carrito, etc.
 window.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem("login_status") !== "true" && !window.location.href.includes("login.html")) {
     window.location.replace("login.html");

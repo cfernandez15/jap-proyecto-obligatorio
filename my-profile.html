@@ -99,13 +99,107 @@
   </div>
 </div>
 
-  <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+  <main class="mt-5">
+    <div class="container-fluid border border-secondary profile-banner" style="height: 200px;">
+      <div class="profile-img pt-4 pb-1 d-flex">
+        <img src="img/img_perfil.png" id="user-img" class="rounded-circle border border-white bg-transparent cursor-active" data-bs-toggle="modal" data-bs-target="#profile-img-modal" style="height: 150px; width: 150px;">
+        <h4 class="text-white" id="nameComplete-banner"></h5>
       </div>
     </div>
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-8 border-end">
+          <div class="container-fluid">
+            <h5>Sobre mi: </h5>
+            <p id="about-me" onclick="createInput(this)">No hay una introduccion sobre usted</p>
+            <div class="w-50">
+              <h5>Datos personales: </h5>
+            <ul class="list-group">
+              <li class="list-group-item d-flex overflow-auto" id="user-name1" onclick="createInput(this)">Nombre: 
+              </li>
+              <li class="list-group-item d-flex overflow-auto" id="user-name2" onclick="createInput(this)">Segundo nombre: </li>
+              <li class="list-group-item d-flex overflow-auto" id="user-lastname1" onclick="createInput(this)">Apellido: </li>
+              <li class="list-group-item d-flex overflow-auto" id="user-lastname2" onclick="createInput(this)">Segundo apellido: </li>
+              <li class="list-group-item d-flex overflow-auto" id="user-age" onclick="createInput(this)">Edad: </li>
+              <li class="list-group-item d-flex overflow-auto" id="user-sex" onclick="createInput(this)">Sexo: </li>
+            </ul>
+            </div>
+            <div class="w-50 pt-2">
+              <h5>Datos de contacto: </h5>
+              <ul class="list-group">
+                <li class="list-group-item d-flex overflow-auto" id="user-tel" onclick="createInput(this)">Telefono: </li>
+                <li class="list-group-item d-flex overflow-auto" id="user-email" onclick="createInput(this)">Correo electronico: </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="container-fluid">
+            <h5 class="text-center">Comentarios realizados:</h4>
+            <p class="text-center">En desarrollo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid pt-3 border-top border-bottom">
+      <h5 class="text-center">Productos publicados: </h5>
+      <p class="text-center">En desarrollo</p>
+    </div>
   </main>
+  <!-- Modal -->
+<div class="modal fade" id="profile-img-modal" tabindex="-1" aria-labelledby="profile-img-modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column py-4 justify-content-center align-items-center">
+          <label for="upload-img" id="upload-img-label" class="btn btn-outline-info cursor-active">Subir archivo</label>
+          <input type="file" id="upload-img" class="d-none" accept=".jpg, .jpeg, .png" name="user-profileImg">
+          <p class="text-center pt-2">o</p>
+          <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#select-img-modal">Elige una imagen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="select-img-modal" tabindex="1" aria-labelledby="profile-img-modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-bottom">
+        <h5>Elija una imagen: </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container d-flex flex-row" style="gap: 2em;">
+          <div class="row">
+            <div class="col-4 pb-2">
+              <img src="img/profile_images/img1.jpg" class="rounded" id="img1" onclick="selectImage(this)" style="height: 100px;width: 100px;">
+            </div>
+            <div class="col-4 pb-2">
+              <img src="img/profile_images/img2.jpg" class="rounded" id="img2" onclick="selectImage(this)" style="height: 100px;width: 100px;">
+            </div>
+            <div class="col-4 pb-2">
+              <img src="img/profile_images/img3.jpg" class="rounded" id="img3" onclick="selectImage(this)" style="height: 100px;width: 100px;">
+            </div>
+            <div class="col-4 pb-2">
+              <img src="img/profile_images/img4.jpg" class="rounded" id="img4" onclick="selectImage(this)" style="height: 100px;width: 100px;">
+            </div>
+            <div class="col-4 pb-2">
+              <img src="img/profile_images/img5.jpg" class="rounded" id="img5" onclick="selectImage(this)" style="height: 100px;width: 100px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p class="text-danger invisible text-start" id="imgError">Elija una imagen.</p>
+        <button type="button" class="btn btn-primary" onclick="saveImage()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+</div>
   <footer class="text-muted">
     <div class="container">
       <p class="float-end">
